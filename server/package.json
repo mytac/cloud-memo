@@ -6,6 +6,9 @@
   "repository": "https://github.com/mytac/cloud-memo",
   "author": "mytac",
   "license": "Apache",
+  "scripts": {
+    "start": "node index.js"
+  },
   "dependencies": {
     "eslint-plugin-jsx-a11y": "^6.0.3",
     "eslint-plugin-react": "^7.6.1",
