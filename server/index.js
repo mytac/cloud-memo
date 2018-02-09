@@ -1,12 +1,13 @@
 const express = require('express');
+const { port } = require('./config/default');
+// const { connectDB } = require('./lib/mongo');
+const { insertThingsToDB } = require('./methods/upload');
 
 const app = express();
-const { connectDB } = require('./config/dbConfig');
-
 const router = express.Router();
 
-connectDB();
-
+// connectDB();
+insertThingsToDB();
 // 上传文章
 router.get('/upload', (req, res) => {
   res.send('uploaded!!');
@@ -33,9 +34,8 @@ router.use((err, req, res) => {
   res.status(500).send('Something broke!');
 });
 
-const server = app.listen(8888, () => {
+const server = app.listen(port, () => {
   const host = server.address().address;
-  const { port } = server.address();
 
   console.log(`the server is listening on ${host}:${port}`);
 });

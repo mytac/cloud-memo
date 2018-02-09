@@ -1,19 +1,17 @@
 const { MongoClient } = require('mongodb');
 const assert = require('assert');
+const { mongodbURL, dbName } = require('../config/default');
 
-// Connection URL
-const url = 'mongodb://localhost:27017';
-
-// Database Name
-const dbName = 'memo';
-
-function connectDB() {
+function connectDB(operation = () => {}) {
   // Use connect method to connect to the server
-  MongoClient.connect(url, (err, client) => {
+  MongoClient.connect(mongodbURL, (err, client) => {
     assert.equal(null, err);
     console.log('Connected successfully to server');
 
     const db = client.db(dbName);
+
+    operation(db);
+
 
     client.close();
   });
