@@ -10,9 +10,11 @@
     "start": "node index.js"
   },
   "dependencies": {
+    "assert": "^1.4.1",
     "eslint-plugin-jsx-a11y": "^6.0.3",
     "eslint-plugin-react": "^7.6.1",
-    "express": "^4.16.2"
+    "express": "^4.16.2",
+    "mongodb": "^3.0.2"
   },
   "devDependencies": {
     "eslint": "^4.9.0",

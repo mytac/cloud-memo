@@ -1,7 +1,11 @@
 const express = require('express');
 
 const app = express();
+const { connectDB } = require('./config/dbConfig');
+
 const router = express.Router();
+
+connectDB();
 
 // 上传文章
 router.get('/upload', (req, res) => {
