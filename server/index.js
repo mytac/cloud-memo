@@ -1,13 +1,16 @@
 const express = require('express');
 const { port } = require('./config/default');
-// const { connectDB } = require('./lib/mongo');
-const { insertThingsToDB } = require('./methods/upload');
+const { connectDB } = require('./lib/mongo');
+const { insertDocuments } = require('./methods/upload');
 
 const app = express();
 const router = express.Router();
 
-// connectDB();
-insertThingsToDB();
+connectDB.then((db) => {
+  insertDocuments(db);
+});
+
+// insertThingsToDB();
 // 上传文章
 router.get('/upload', (req, res) => {
   res.send('uploaded!!');

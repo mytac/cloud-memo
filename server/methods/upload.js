@@ -1,5 +1,4 @@
 const assert = require('assert');
-const { connectDB } = require('../lib/mongo');
 
 const insertDocuments = function (db, callback = () => {}) {
   // Get the documents collection
@@ -14,9 +13,4 @@ const insertDocuments = function (db, callback = () => {}) {
   });
 };
 
-function insertThingsToDB() {
-  connectDB(insertDocuments);
-  console.log('right');
-}
-
-module.exports = { insertThingsToDB };
+module.exports = { insertDocuments };
