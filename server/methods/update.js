@@ -1,19 +1,18 @@
-const assert = require('assert');
+const { createError } = require('../lib/createError');
+const { createResult } = require('../lib/createResult');
+const errors = require('../constants/errors');
 
-const updateDocument = function (db, callback) {
-  // Get the documents collection
-  const collection = db.collection('documents');
-  // Update document where a is 2, set b equal to 1
-  collection.updateOne(
-    { a: 2 }
-    , { $set: { b: 1 } }, (err, result) => {
-      assert.equal(err, null);
-      assert.equal(1, result.result.n);
+const updateDocument = (db, tar = { test: 1 }, newValue = { $set: { test: 100 } }, collectionName = 'documents') => new Promise((resolve, reject) => {
+  const collection = db.collection(collectionName);
+  collection.updateOne(tar, newValue, (err, { result }) => {
+    if (err) {
+      reject(createError(errors.HANDLE_DB_FAILED));
+    } else {
       console.log('Updated the document with the field a equal to 2');
-      callback(result);
-    },
-  );
-};
+      resolve(createResult(result));
+    }
+  });
+});
 
 
 module.exports = { updateDocument };

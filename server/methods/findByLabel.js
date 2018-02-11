@@ -1,15 +1,16 @@
-const assert = require('assert');
+const { createError } = require('../lib/createError');
+const { createResult } = require('../lib/createResult');
+const errors = require('../constants/errors');
 
-const findDocuments = function (db, callback = () => {}) {
-  // Get the documents collection
-  const collection = db.collection('documents');
-  // Find some documents
-  collection.find({ a: 'test' }).toArray((err, docs) => {
-    assert.equal(err, null);
-    console.log('Found the following records');
-    console.log(docs);
-    callback(docs);
+const findDocuments = (db, data = { test: 100 }, collectionName = 'documents') => new Promise((resolve, reject) => {
+  const collection = db.collection(collectionName);
+  collection.find(data).toArray((err, docs) => {
+    if (err) {
+      reject(createError(errors.HANDLE_DB_FAILED));
+    } else {
+      resolve(createResult(docs));
+    }
   });
-};
+});
 
 module.exports = { findDocuments };

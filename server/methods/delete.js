@@ -1,15 +1,16 @@
-const assert = require('assert');
+const { createError } = require('../lib/createError');
+const { createResult } = require('../lib/createResult');
+const errors = require('../constants/errors');
 
-const removeDocument = function (db, callback) {
-  // Get the documents collection
-  const collection = db.collection('documents');
-  // Delete document where a is 3
-  collection.deleteOne({ a: 3 }, (err, result) => {
-    assert.equal(err, null);
-    assert.equal(1, result.result.n);
-    console.log('Removed the document with the field a equal to 3');
-    callback(result);
+const removeDocument = (db, data = { test: 1 }, collectionName = 'documents') => new Promise((resolve, reject) => {
+  const collection = db.collection(collectionName);
+  collection.deleteOne(data, (err, { result }) => {
+    if (err) {
+      reject(createError(errors.HANDLE_DB_FAILED));
+    } else {
+      resolve(createResult(result));
+    }
   });
-};
+});
 
 module.exports = { removeDocument };
