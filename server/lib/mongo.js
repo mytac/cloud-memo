@@ -1,15 +1,13 @@
 const { MongoClient } = require('mongodb');
-const assert = require('assert');
 const { mongodbURL, dbName } = require('../config/default');
+const { createError } = require('../lib/createError');
+const errors = require('../constants/errors');
 
 const connectDB = new Promise((resolve, reject) => {
   MongoClient.connect(mongodbURL, (err, client) => {
     if (err) {
-      reject(err);
+      reject(createError(errors.CONNECT_DB_FAILED));
     } else {
-      assert.equal(null, err);
-      console.log('Connected successfully to server');
-
       const db = client.db(dbName);
       resolve(db);
     }

@@ -1,13 +1,18 @@
 const express = require('express');
 const { port } = require('./config/default');
 const { connectDB } = require('./lib/mongo');
-const { insertDocuments } = require('./methods/upload');
+const { createError } = require('./lib/createError');
+const errors = require('./constants/errors');
+const { insertDocuments } = require('./methods/add');
+const { findDocuments } = require('./methods/findByLabel');
 
 const app = express();
 const router = express.Router();
 
 connectDB.then((db) => {
   insertDocuments(db);
+}).catch((err) => {
+  console.log(err);
 });
 
 // insertThingsToDB();
