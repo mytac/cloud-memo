@@ -10,8 +10,9 @@ router.get('/', (req, res) => {
   res.send('/////');
 });
 // 上传文章
-router.get('/upload', (req, res) => {
-  res.send('uploaded!!');
+router.post('/upload', (req, res) => {
+  console.log(req.query.context);
+  res.send(`${req.query.context}`);
 });
 
 // 删除文章
