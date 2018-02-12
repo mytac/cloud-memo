@@ -1,4 +1,5 @@
 const express = require('express');
+const routers = require('./routes');
 const { port } = require('./config/default');
 const { connectDB } = require('./lib/mongo');
 const { insertDocuments } = require('./methods/add');
@@ -7,39 +8,13 @@ const { updateDocument } = require('./methods/update');
 const { removeDocument } = require('./methods/delete');
 
 const app = express();
-const router = express.Router();
 
-connectDB.then(db => findDocuments(db)).then(data => console.log('data', data))
+/* connectDB.then(db => findDocuments(db)).then(data => console.log('data', data))
   .catch((err) => {
     console.log(err);
-  });
-
-// insertThingsToDB();
-// 上传文章
-router.get('/upload', (req, res) => {
-  res.send('uploaded!!');
-});
-
-// 删除文章
-router.get('/delete', (req, res) => {
-  res.send('delete!!');
-});
-
-// 按分类查找
-router.get('/findByLabel', (req, res) => {
-  res.send('findByLabel!!');
-});
-
-// 404
-router.use((req, res) => {
-  res.status(404).send('404 not found');
-});
-
-// 500
-router.use((err, req, res) => {
-  console.error(err.stack);
-  res.status(500).send('Something broke!');
-});
+  }); */
+// 该路由使用的中间件
+app.use('/', routers);
 
 const server = app.listen(port, () => {
   const host = server.address().address;
