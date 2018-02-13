@@ -1,5 +1,6 @@
 const { connectDB } = require('../lib/mongo');
 const { insertDocuments } = require('../mongo/add');
+const { createError } = require('../lib/createError');
 
 function upload(req, res) {
   const { context } = req.body;
@@ -8,6 +9,7 @@ function upload(req, res) {
     .then(data => res.json(data))
     .catch((err) => {
       console.log(err);
+      res.json(createError('SYSTEM_ERROR'));
     });
 }
 
