@@ -7,10 +7,12 @@
   "author": "mytac",
   "license": "Apache",
   "scripts": {
-    "start": "node index.js"
+    "start": "node index.js",
+    "dev": "supervisor node index.js"
   },
   "dependencies": {
     "assert": "^1.4.1",
+    "body-parser": "^1.18.2",
     "eslint-plugin-jsx-a11y": "^6.0.3",
     "eslint-plugin-react": "^7.6.1",
     "express": "^4.16.2",
