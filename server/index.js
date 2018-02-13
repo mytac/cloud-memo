@@ -9,7 +9,8 @@ const { updateDocument } = require('./mongo/update');
 const { removeDocument } = require('./mongo/delete');
 
 const app = express();
-app.use(bodyParser.json({ extended: true }));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 /* connectDB.then(db => findDocuments(db)).then(data => console.log('data', data))
   .catch((err) => {
     console.log(err);

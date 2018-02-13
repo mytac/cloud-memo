@@ -1,4 +1,5 @@
 const express = require('express');
+const { upload } = require('../methods/upload');
 
 const router = express.Router();
 router.use((req, res, next) => {
@@ -10,10 +11,7 @@ router.get('/', (req, res) => {
   res.send('/////');
 });
 // 上传文章
-router.post('/upload', (req, res) => {
-  console.log(req.query.context);
-  res.send(`${req.query.context}`);
-});
+router.post('/upload', upload);
 
 // 删除文章
 router.get('/delete', (req, res) => {
