@@ -1,5 +1,7 @@
 const express = require('express');
 const { upload } = require('../methods/upload');
+const { remove } = require('../methods/delete');
+const { find } = require('../methods/find');
 
 const router = express.Router();
 router.use((req, res, next) => {
@@ -14,14 +16,10 @@ router.get('/', (req, res) => {
 router.post('/upload', upload);
 
 // 删除文章
-router.get('/delete', (req, res) => {
-  res.send('delete!!');
-});
+router.post('/delete', remove);
 
 // 按分类查找
-router.get('/findByLabel', (req, res) => {
-  res.send('findByLabel!!');
-});
+router.post('/findByLabel', find);
 
 // 404
 router.use((req, res) => {
