@@ -2,6 +2,7 @@ const express = require('express');
 const { upload } = require('../methods/upload');
 const { remove } = require('../methods/delete');
 const { find } = require('../methods/find');
+const { update } = require('../methods/update');
 
 const router = express.Router();
 router.use((req, res, next) => {
@@ -17,6 +18,9 @@ router.post('/upload', upload);
 
 // 删除文章
 router.post('/delete', remove);
+
+// 更新文章
+router.post('/update', update);
 
 // 按分类查找
 router.post('/findByLabel', find);
