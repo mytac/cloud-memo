@@ -4,11 +4,11 @@ const errors = require('../constants/errors');
 
 const removeDocument = (db, data = { test: 1 }, collectionName = 'documents') => new Promise((resolve, reject) => {
   const collection = db.collection(collectionName);
-  collection.deleteOne(data, (err, { result }) => {
+  collection.deleteOne(data, (err, res) => {
     if (err) {
       reject(createError(errors.HANDLE_DB_FAILED));
     } else {
-      resolve(createResult(result));
+      resolve(createResult(res));
     }
   });
 });

@@ -10,7 +10,7 @@ function remove(req, res) {
     return;
   }
   connectDB
-    .then(db => removeDocument(db, new ObjectID(id)))
+    .then(db => removeDocument(db, { _id: new ObjectID(id) }))
     .then(data => res.json(data))
     .catch((err) => { unknowError(err, res); });
 }
