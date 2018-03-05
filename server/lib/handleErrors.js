@@ -1,4 +1,4 @@
-const { INVALID_PARAMETERS } = require('../constants/errors');
+const { INVALID_PARAMETERS, SYSTEM_ERROR } = require('../constants/errors');
 const { createError } = require('./createError');
 
 function parameterInvalid(res) {
@@ -7,7 +7,7 @@ function parameterInvalid(res) {
 
 function unknowError(err, res) {
   console.log(err);
-  res.json(createError('SYSTEM_ERROR'));
+  res.json(createError(SYSTEM_ERROR));
 }
 
 module.exports = { parameterInvalid, unknowError };
