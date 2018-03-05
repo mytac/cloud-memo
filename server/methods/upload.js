@@ -1,16 +1,18 @@
 const { connectDB } = require('../lib/mongo');
 const { insertDocuments } = require('../mongo/add');
-const { createError } = require('../lib/createError');
+const { parameterInvalid, unknowError } = require('../lib/handleErrors');
 
 function upload(req, res) {
   const { context } = req.body;
+  if (!context) {
+    parameterInvalid(res);
+    return;
+  }
+
   connectDB
     .then(db => insertDocuments(db, { context }))
     .then(data => res.json(data))
-    .catch((err) => {
-      console.log(err);
-      res.json(createError('SYSTEM_ERROR'));
-    });
+    .catch((err) => { unknowError(err, res); });
 }
 
 module.exports = {
