@@ -1,11 +1,12 @@
+const { ObjectID } = require('mongodb');
 const { connectDB } = require('../lib/mongo');
-const { insertDocuments } = require('../mongo/add');
+const { updateDocument } = require('../mongo/update');
 const { createError } = require('../lib/createError');
 
 function update(req, res) {
-  const { context } = req.body;
+  const { context, id } = req.body;
   connectDB
-    .then(db => insertDocuments(db, { context }))
+    .then(db => updateDocument(db, { _id: new ObjectID(id) }, { context }))
     .then(data => res.json(data))
     .catch((err) => {
       console.log(err);
@@ -13,6 +14,4 @@ function update(req, res) {
     });
 }
 
-module.exports = {
-  upload,
-};
+module.exports = { update };
