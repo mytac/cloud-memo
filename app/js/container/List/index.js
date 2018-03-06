@@ -9,7 +9,7 @@ export default class List extends Component {
   render() {
     return (
       <ScrollView style={{ flex: 1 }}>
-        {mockData.map((data, idx) => <Listitem msg={data} color={colorSet[idx % 4]} />)}
+        {mockData.map((data, idx) => <Listitem msg={data} color={colorSet[idx % 4]} onPress={() => this.props.navigation.navigate('Detail')} />)}
       </ScrollView>
     );
   }
