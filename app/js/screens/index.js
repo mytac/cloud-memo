@@ -1,8 +1,8 @@
-import Display from '../container/Display';
+import List from '../container/List';
 
 export default {
-  Display: {
-    screen: Display,
+  List: {
+    screen: List,
   },
 
 };

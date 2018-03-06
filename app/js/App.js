@@ -7,5 +7,5 @@ import { StackNavigator } from 'react-navigation';
 import Screens from './screens';
 
 export default StackNavigator(Screens, {
-  initialRouteName: 'Display',
+  initialRouteName: 'List',
 });
