@@ -1,6 +1,7 @@
+import React from 'react';
 import List from '../container/List';
 import Detail from '../container/Detail';
-import { navOptions } from './navigations';
+import { navOptions, NavBtn, BackBtn } from './navigations';
 
 export default {
   List: {
@@ -9,6 +10,9 @@ export default {
   },
   Detail: {
     screen: Detail,
-    navigationOptions: ({ navigation }) => navOptions('编辑'),
+    navigationOptions: ({ navigation }) => navOptions(
+      '编辑',
+      { headerLeft: <BackBtn navigation={navigation} /> },
+    ),
   },
 };

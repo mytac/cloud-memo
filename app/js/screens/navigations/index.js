@@ -1,3 +1,4 @@
 import navOptions from './navOptions';
+import { NavBtn, BackBtn } from './NavBtn';
 
-export { navOptions };
+export { navOptions, NavBtn, BackBtn };

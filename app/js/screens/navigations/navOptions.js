@@ -2,7 +2,7 @@ import React from 'react';
 import { View, StyleSheet, Text } from 'react-native';
 import { px2dp } from '../../utils/px2dp';
 
-export default function navOptions(title = '', isShowHeader = true, restParams = {}) {
+export default function navOptions(title = '', restParams = {}, isShowHeader = true) {
   if (!isShowHeader) return { header: null };
   return {
     title,
