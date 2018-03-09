@@ -6,8 +6,14 @@ import { px2dp } from '../../utils/px2dp';
 
 function NavBtn({ onPress, iconName, color }) {
   return (
-    <TouchableOpacity onPress={onPress} style={{ marginLeft: px2dp(20) }}>
-      {/* <Text>111</Text> */}
+    <TouchableOpacity
+      onPress={onPress}
+      style={{
+          width: px2dp(75),
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+    >
       <Icon name={iconName} size={30} color={color} />
     </TouchableOpacity>
   );
