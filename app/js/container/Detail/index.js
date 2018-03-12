@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { ScrollView, TextInput, StyleSheet, Animated } from 'react-native';
 import { px2dp } from '../../utils/px2dp';
+import request from '../../utils/request';
+import { Toast } from '../../component/Toast/index';
 
 
 export default class Detail extends Component {
@@ -10,6 +12,15 @@ export default class Detail extends Component {
       inputBoxHeight: new Animated.Value(),
     };
     this.onChange = this.onChange.bind(this);
+  }
+
+  async componentDidMount() {
+    try {
+      const body = await request('/findByLabel', { id: '5a9cb46aa0f7ed28149b0dd0' });
+      console.log('body', body);
+    } catch (e) {
+      Toast.show(e.code, Toast.SHORT);
+    }
   }
 
   onChange(event) {

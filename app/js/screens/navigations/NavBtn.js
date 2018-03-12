@@ -19,14 +19,18 @@ function NavBtn({ onPress, iconName, color }) {
   );
 }
 
-function BackBtn({ navigation }) {
+function BackBtn({ navigation, onPress }) {
   return (
-    <NavBtn iconName="angle-left" onPress={() => navigation.goBack()} />
+    <NavBtn iconName="angle-left" onPress={() => { onPress(); navigation.goBack(); }} />
   );
 }
 
 BackBtn.propTypes = {
   navigation: PropTypes.object.isRequired,
+  onPress: PropTypes.func,
+};
+BackBtn.defaultProps = {
+  onPress: () => {},
 };
 
 NavBtn.propTypes = {
