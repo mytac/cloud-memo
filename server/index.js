@@ -9,6 +9,16 @@ const { updateDocument } = require('./mongo/update');
 const { removeDocument } = require('./mongo/delete');
 
 const app = express();
+
+const allowCrossDomain = function (req, res, next) {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+  res.header('Access-Control-Allow-Headers', 'Content-Type');
+  res.header('Access-Control-Allow-Credentials', 'true');
+  next();
+};
+
+app.use(allowCrossDomain);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 /* connectDB.then(db => findDocuments(db)).then(data => console.log('data', data))
