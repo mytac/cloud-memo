@@ -1,7 +1,7 @@
 import React from 'react';
 import List from '../container/List';
 import Detail from '../container/Detail';
-import { navOptions, NavBtn, BackBtn } from './navigations';
+import { navOptions, NavBtn, BackBtn, UploadBtn } from './navigations';
 import { Toast } from '../component/Toast';
 
 export default {
@@ -20,6 +20,7 @@ export default {
         Toast.show('test', Toast.SHORT);
       }}
         />,
+        headerRight: <UploadBtn />,
       },
     ),
   },

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { ScrollView, TextInput, StyleSheet, Animated } from 'react-native';
+import { ScrollView, TextInput, StyleSheet, Animated, DeviceEventEmitter } from 'react-native';
 import { px2dp } from '../../utils/px2dp';
 import request from '../../utils/request';
 import { Toast } from '../../component/Toast/index';
@@ -12,15 +12,22 @@ export default class Detail extends Component {
       inputBoxHeight: new Animated.Value(),
     };
     this.onChange = this.onChange.bind(this);
+    this.registEmitter = this.registEmitter.bind(this);
   }
 
-  async componentDidMount() {
-    try {
+  componentDidMount() {
+    this.registEmitter();
+
+    /* try {
       const body = await request('/findByLabel', { id: '5a9cb46aa0f7ed28149b0dd0' });
       console.log('body', body);
     } catch (e) {
       Toast.show(e.code, Toast.SHORT);
-    }
+    } */
+  }
+
+  componentWillUnmount() {
+    this.deEmitter.remove();
   }
 
   onChange(event) {
@@ -31,6 +38,14 @@ export default class Detail extends Component {
         toValue: contentSize,
       },
     ).start();
+  }
+
+  registEmitter() {
+    this.deEmitter = DeviceEventEmitter.addListener('uploading', (a) => {
+      console.log('uploading', a);
+      // 上传操作
+      DeviceEventEmitter.emit('isUploaded', true);
+    });
   }
 
   render() {
