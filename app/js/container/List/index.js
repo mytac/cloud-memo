@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { ScrollView, View } from 'react-native';
+import { View, FlatList, Text } from 'react-native';
 import Listitem from '../../component/Listitem';
 import AddBtn from '../../component/AddBtn';
 import Nav from './Nav';
@@ -12,10 +12,15 @@ export default class List extends Component {
   constructor(props) {
     super(props);
     this.goto = this.goto.bind(this);
+    this.load = this.load.bind(this);
   }
 
   goto(tar) {
     this.props.navigation.navigate(tar);
+  }
+
+  load() {
+    console.log('data');
   }
 
   render() {
@@ -23,9 +28,20 @@ export default class List extends Component {
       <View style={{ flex: 1 }}>
         <Nav />
         <AddBtn onPress={() => this.goto('Detail')} />
-        <ScrollView style={{ flex: 1 }}>
-          {mockData.map((data, idx) => <Listitem msg={data} color={colorSet[idx % 4]} onPress={() => this.goto('Detail')} />)}
-        </ScrollView>
+        <View style={{ flex: 1 }}>
+          {mockData.length > 0 ?
+            <FlatList
+              data={mockData}
+              renderItem={({ item, index }) => (
+                <Listitem msg={item} color={colorSet[index % 4]} onPress={() => this.goto('Detail')} />
+            )}
+              onEndReachedThreshold={10}
+              onEndReached={this.load}
+              style={{ flex: 1 }}
+            />
+            :
+            <Text>没有记录</Text>}
+        </View>
       </View>
     );
   }
@@ -36,6 +52,8 @@ List.propTypes = {
 };
 
 const mockData = [
+  'test',
+  'test',
   'test',
   'test',
   'test',
