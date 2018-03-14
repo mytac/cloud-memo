@@ -1,7 +1,7 @@
 const express = require('express');
 const { upload } = require('../methods/upload');
 const { remove } = require('../methods/delete');
-const { find } = require('../methods/find');
+const { find, getArticles } = require('../methods/find');
 const { update } = require('../methods/update');
 
 const router = express.Router();
@@ -24,6 +24,9 @@ router.post('/update', update);
 
 // 按分类查找
 router.post('/findByLabel', find);
+
+// 文章列表【分页】
+router.post('/getArticles', getArticles);
 
 // 404
 router.use((req, res) => {
