@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { ScrollView, View } from 'react-native';
 import Listitem from '../../component/Listitem';
 import AddBtn from '../../component/AddBtn';
+import Nav from './Nav';
 
 /* 不同类型对应不同背景 */
 const colorSet = ['#def2ff', '#bfeabe', '#f2d8c6', '#f0efb0'];
@@ -20,6 +21,7 @@ export default class List extends Component {
   render() {
     return (
       <View style={{ flex: 1 }}>
+        <Nav />
         <AddBtn onPress={() => this.goto('Detail')} />
         <ScrollView style={{ flex: 1 }}>
           {mockData.map((data, idx) => <Listitem msg={data} color={colorSet[idx % 4]} onPress={() => this.goto('Detail')} />)}
