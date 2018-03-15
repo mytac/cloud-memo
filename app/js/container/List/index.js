@@ -4,7 +4,7 @@ import { View, FlatList, Text } from 'react-native';
 import Listitem from '../../component/Listitem';
 import AddBtn from '../../component/AddBtn';
 import Nav from './Nav';
-import { getArticles } from '../../utils/localStorage';
+import { getArticles, setArticles } from '../../utils/localStorage';
 
 /* 不同类型对应不同背景 */
 const colorSet = ['#def2ff', '#bfeabe', '#f2d8c6', '#f0efb0'];
@@ -16,7 +16,7 @@ export default class List extends Component {
       articles: [],
     };
     this.goto = this.goto.bind(this);
-    this.load = this.load.bind(this);
+    this.getNewData = this.getNewData.bind(this);
     this.updateArticle = this.updateArticle.bind(this);
   }
 
@@ -27,6 +27,7 @@ export default class List extends Component {
   componentWillUnmount() {
     console.log('unmount');
     // 退出时存到本地
+    setArticles(this.state.articles).then((status) => { console.log(status); });
   }
 
 
@@ -43,7 +44,7 @@ export default class List extends Component {
     const newArticle = [].concat(articles);
     const date = new Date();
     const newData = { time: date.getTime(), title, content };
-    if (index) {
+    if (index !== undefined) {
       newArticle[index] = newData;
     } else {
       newArticle.push(newData);
