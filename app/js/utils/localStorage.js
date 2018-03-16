@@ -1,31 +1,25 @@
 import { AsyncStorage } from 'react-native';
-/* eslint-disable no-console */
-async function getStorageData(key) {
+
+async function setArticles(articles) {
+  let status = false;
+  try {
+    await AsyncStorage.setItem('Articles', JSON.stringify(articles));
+    status = true;
+  } catch (e) {
+    throw e;
+  }
+  return status;
+}
+
+async function getArticles() {
   let value;
   try {
-    value = await AsyncStorage.getItem(key);
+    value = await AsyncStorage.getItem('Articles');
+    console.log('Articles', value);
   } catch (e) {
     throw e;
   }
-  return value;
+  return JSON.parse(value);
 }
 
-async function getStorageAllData(keys) {
-  let data;
-  try {
-    data = await AsyncStorage.multiGet(keys);
-  } catch (e) {
-    throw e;
-  }
-  return data;
-}
-
-async function setStorage(arr) {
-  try {
-    await AsyncStorage.multiSet(arr);
-  } catch (e) {
-    throw e;
-  }
-}
-
-export { getStorageData, getStorageAllData, setStorage };
+export { getArticles, setArticles };

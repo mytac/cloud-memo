@@ -4,6 +4,7 @@ import { View, FlatList, Text } from 'react-native';
 import Listitem from '../../component/Listitem';
 import AddBtn from '../../component/AddBtn';
 import Nav from './Nav';
+import { getArticles, setArticles } from '../../utils/localStorage';
 
 /* 不同类型对应不同背景 */
 const colorSet = ['#def2ff', '#bfeabe', '#f2d8c6', '#f0efb0'];
@@ -11,29 +12,65 @@ const colorSet = ['#def2ff', '#bfeabe', '#f2d8c6', '#f0efb0'];
 export default class List extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      articles: [],
+    };
     this.goto = this.goto.bind(this);
-    this.load = this.load.bind(this);
+    this.getNewData = this.getNewData.bind(this);
+    this.updateArticle = this.updateArticle.bind(this);
   }
 
-  goto(tar) {
-    this.props.navigation.navigate(tar);
+  componentDidMount() {
+    this.getNewData();
   }
 
-  load() {
-    console.log('data');
+  componentDidUpdate() {
+    setArticles(this.state.articles).then((status) => {
+      console.log(status);
+    });
   }
+
+
+  getNewData() {
+    getArticles()
+      .then((value) => { this.setState({ articles: value }); });
+  }
+
+  updateArticle(title, content, index) {
+    const { articles } = this.state;
+    const newArticle = [].concat(articles);
+    const date = new Date();
+    const newData = { time: date.getTime(), title, content };
+    if (index !== undefined) {
+      newArticle[index] = newData;
+    } else {
+      newArticle.push(newData);
+    }
+    this.setState({
+      articles: newArticle,
+    });
+  }
+
+  goto(tar, index) {
+    this.props.navigation.navigate(
+      tar,
+      { articles: this.state.articles, index, updateArticle: this.updateArticle },
+    );
+  }
+
 
   render() {
+    const { articles } = this.state;
     return (
       <View style={{ flex: 1 }}>
         <Nav />
         <AddBtn onPress={() => this.goto('Detail')} />
         <View style={{ flex: 1 }}>
-          {mockData.length > 0 ?
+          {articles.length > 0 ?
             <FlatList
-              data={mockData}
+              data={articles}
               renderItem={({ item, index }) => (
-                <Listitem msg={item} color={colorSet[index % 4]} onPress={() => this.goto('Detail')} />
+                <Listitem msg={item.title} color={colorSet[index % 4]} onPress={() => this.goto('Detail', index)} />
             )}
               onEndReachedThreshold={10}
               onEndReached={this.load}
@@ -51,15 +88,3 @@ List.propTypes = {
   navigation: PropTypes.object.isRequired,
 };
 
-const mockData = [
-  'test',
-  'test',
-  'test',
-  'test',
-  'test',
-  'test',
-  'test',
-  'test',
-  'test',
-  'test',
-];
