@@ -24,19 +24,16 @@ export default class List extends Component {
     this.getNewData();
   }
 
-  componentWillUnmount() {
-    console.log('unmount');
-    // 退出时存到本地
-    setArticles(this.state.articles).then((status) => { console.log(status); });
+  componentDidUpdate() {
+    setArticles(this.state.articles).then((status) => {
+      console.log(status);
+    });
   }
 
 
   getNewData() {
-    getArticles().then((articles) => {
-      this.setState({
-        articles,
-      });
-    });
+    getArticles()
+      .then((value) => { this.setState({ articles: value }); });
   }
 
   updateArticle(title, content, index) {
@@ -60,6 +57,7 @@ export default class List extends Component {
       { articles: this.state.articles, index, updateArticle: this.updateArticle },
     );
   }
+
 
   render() {
     const { articles } = this.state;
