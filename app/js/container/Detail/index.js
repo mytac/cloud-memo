@@ -4,16 +4,17 @@ import { ScrollView, TextInput, StyleSheet, Animated, DeviceEventEmitter } from 
 import { px2dp } from '../../utils/px2dp';
 import request from '../../utils/request';
 import { Toast } from '../../component/Toast/index';
-import { setArticle } from '../../utils/localStorage';
 
 
 export default class Detail extends Component {
   constructor(props) {
     super(props);
+    const { index, articles } = this.props.navigation.state.params;
+    const currentArticle = articles[index];
     this.state = {
       /* 文本 */
-      title: '',
-      content: '',
+      title: index ? currentArticle.title : '',
+      content: index ? currentArticle.content : '',
 
       inputBoxHeight: new Animated.Value(),
     };
@@ -23,13 +24,6 @@ export default class Detail extends Component {
 
   componentDidMount() {
     this.registEmitter();
-
-    /* try {
-      const body = await request('/findByLabel', { id: '5a9cb46aa0f7ed28149b0dd0' });
-      console.log('body', body);
-    } catch (e) {
-      Toast.show(e.code, Toast.SHORT);
-    } */
   }
 
   componentWillUnmount() {
@@ -61,7 +55,7 @@ export default class Detail extends Component {
   }
 
   render() {
-    const { inputBoxHeight } = this.state;
+    const { inputBoxHeight, title, content } = this.state;
     return (
       <ScrollView style={{ flex: 1 }}>
         <Animated.View style={{ height: inputBoxHeight }}>
@@ -69,6 +63,7 @@ export default class Detail extends Component {
             placeholder="标题"
             underlineColorAndroid="transparent"
             style={[{ flex: 1 }, style.inputBox]}
+            value={title}
             onChangeText={(text) => { this.setState({ title: text }); }}
           />
           <TextInput
@@ -77,6 +72,7 @@ export default class Detail extends Component {
             multiline // 代表可以输入多行
             onContentSizeChange={this.onChange}
             underlineColorAndroid="transparent"
+            value={content}
             onChangeText={(text) => { this.setState({ content: text }); }}
           />
         </Animated.View>
