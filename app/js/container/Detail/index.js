@@ -13,8 +13,8 @@ export default class Detail extends Component {
     const currentArticle = articles[index];
     this.state = {
       /* 文本 */
-      title: index ? currentArticle.title : '',
-      content: index ? currentArticle.content : '',
+      title: index > -1 ? currentArticle.title : '',
+      content: index > -1 ? currentArticle.content : '',
 
       inputBoxHeight: new Animated.Value(),
     };
@@ -44,6 +44,8 @@ export default class Detail extends Component {
   registEmitter() {
     this.deEmitter = DeviceEventEmitter.addListener('uploading', () => {
       // 上传操作
+
+        // 上传成功
       DeviceEventEmitter.emit('isUploaded', true);
     });
   }
