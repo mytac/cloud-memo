@@ -11,16 +11,16 @@ function upload(req, res) {
     return;
   }
 
-  if (id) {
+  if (id && id.length > 0) {
     connectDB
       .then(db => updateDocument(db, { _id: new ObjectID(id) }, { content, title }))
       .then(data => res.json(data))
       .catch((err) => { unknowError(err, res); });
   } else {
+    const newId = new ObjectID();
     connectDB
-      .then(db => insertDocuments(db, { content, title }))
+      .then(db => insertDocuments(db, { content, title, _id: newId }))
       .then((data) => {
-        const newId = new ObjectID();
         const backData = Object.assign(data);
         backData.body.id = newId;
         return res.json(backData);
