@@ -44,10 +44,21 @@ export default class Detail extends Component {
   registEmitter() {
     this.deEmitter = DeviceEventEmitter.addListener('uploading', () => {
       // 上传操作
-
-        // 上传成功
+      this.uploadData();
       DeviceEventEmitter.emit('isUploaded', true);
     });
+  }
+
+  async uploadData() {
+    const { content, title } = this.state;
+    try {
+      const result = await request('/upload', { content, title });
+      console.log('result', result);
+      // 上传成功
+      Toast.show('上传成功', Toast.SHORT);
+    } catch (e) {
+      Toast.show('上传失败', Toast.SHORT);
+    }
   }
 
   updateArticle() {

@@ -5,20 +5,20 @@ const { updateDocument } = require('../mongo/update');
 const { parameterInvalid, unknowError } = require('../lib/handleErrors');
 
 function upload(req, res) {
-  const { context, title, id } = req.body;
-  if (!context || !title) {
+  const { content, title, id } = req.body;
+  if (!content || !title) {
     parameterInvalid(res);
     return;
   }
 
   if (id) {
     connectDB
-      .then(db => updateDocument(db, { _id: new ObjectID(id) }, { context, title }))
+      .then(db => updateDocument(db, { _id: new ObjectID(id) }, { content, title }))
       .then(data => res.json(data))
       .catch((err) => { unknowError(err, res); });
   } else {
     connectDB
-      .then(db => insertDocuments(db, { context, title }))
+      .then(db => insertDocuments(db, { content, title }))
       .then((data) => {
         const newId = new ObjectID();
         const backData = Object.assign(data);

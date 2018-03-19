@@ -3,7 +3,7 @@ import createError from './createError';
 
 export default function request(url, body) {
   return axios
-    .post(`http://192.168.10.248:8888${url}`, JSON.stringify(body))
+    .post(`http://192.168.10.248:8888${url}`, body)
     .then(response => response.data)
     .then((response) => {
       if (response.status === 1) throw createError(response.code);
