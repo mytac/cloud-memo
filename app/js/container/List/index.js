@@ -36,18 +36,10 @@ export default class List extends Component {
       .then((value) => { this.setState({ articles: value }); });
   }
 
-  updateArticle(title, content, index) {
-    const { articles } = this.state;
-    const newArticle = [].concat(articles);
-    const date = new Date();
-    const newData = { time: date.getTime(), title, content };
-    if (index !== undefined) {
-      newArticle[index] = newData;
-    } else {
-      newArticle.push(newData);
-    }
+  updateArticle(newArticles) {
+    console.log('newArticles',newArticles)
     this.setState({
-      articles: newArticle,
+      articles: newArticles,
     });
   }
 

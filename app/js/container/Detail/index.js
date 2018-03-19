@@ -12,12 +12,15 @@ export default class Detail extends Component {
     const { index, articles } = this.props.navigation.state.params;
     const currentArticle = articles[index];
     this.state = {
+      isDelete: false, // 是否进行了删除操作，为了控制返回时是否进行更新操作
       /* 文本 */
-      title: index ? currentArticle.title : '',
-      content: index ? currentArticle.content : '',
-
+      id: index > -1 ? currentArticle.id : '',
+      title: index > -1 ? currentArticle.title : '',
+      content: index > -1 ? currentArticle.content : '',
       inputBoxHeight: new Animated.Value(),
     };
+    this.index = index;
+    this.newArticles = [].concat(articles);
     this.onChange = this.onChange.bind(this);
     this.registEmitter = this.registEmitter.bind(this);
   }
@@ -27,11 +30,15 @@ export default class Detail extends Component {
   }
 
   componentWillUnmount() {
-    this.updateArticle();
+    /* eslint-disable no-unused-expressions */
+    !this.state.isDelete && this.updateArticle();
+    this.updateArticlesToStateTreeAndLocal(this.newArticles);
     this.deEmitter.remove();
+    this.deleteEmitter.remove();
   }
 
   onChange(event) {
+    // 输入时自动调节输入框高度
     const contentSize = event.nativeEvent.contentSize.height;
     Animated.timing(
       this.state.inputBoxHeight,
@@ -41,17 +48,61 @@ export default class Detail extends Component {
     ).start();
   }
 
+  updateArticlesToStateTreeAndLocal(newArticles) {
+    const { updateArticle } = this.props.navigation.state.params;
+    updateArticle(newArticles);
+  }
+
   registEmitter() {
     this.deEmitter = DeviceEventEmitter.addListener('uploading', () => {
       // 上传操作
+      this.uploadData();
       DeviceEventEmitter.emit('isUploaded', true);
+    });
+
+    this.deleteEmitter = DeviceEventEmitter.addListener('deleteArticle', () => {
+      // 监听是否执行删除操作
+      this.deleteData();
     });
   }
 
+  async uploadData() {
+    const { content, title, id } = this.state;
+    try {
+      const result = await request('/upload', { content, title, id });
+      if (result.id) {
+        this.setState({ id: result.id });
+      }
+      // 上传成功
+      Toast.show('上传成功', Toast.SHORT);
+    } catch (e) {
+      Toast.show('上传失败', Toast.SHORT);
+    }
+  }
+
   updateArticle() {
-    const { updateArticle, index } = this.props.navigation.state.params;
-    const { title, content } = this.state;
-    updateArticle(title, content, index);
+    const { title, content, id } = this.state;
+    const newData = { title, content, id };
+    if (this.index !== undefined) {
+      this.newArticles[this.index] = newData;
+    } else {
+      this.newArticles.push(newData);
+    }
+  }
+
+  async deleteData() {
+    const { id } = this.state;
+    this.setState({ isDelete: true });
+    this.newArticles.splice(this.index, 1);
+    if (id.length > 0) {
+      try {
+        await request('/delete', { id });
+      } catch (e) {
+        Toast.show('删除失败，请直接从库中删除',Toast.SHORT)
+        console.log(e);
+      }
+    }
+    this.props.navigation.goBack();
   }
 
   render() {

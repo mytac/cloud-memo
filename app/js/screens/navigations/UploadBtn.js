@@ -45,9 +45,7 @@ export default class UploadBtn extends React.Component {
   }
 
   stopAnimate() {
-    this.state.rotateValue.stopAnimation(() => {
-      Toast.show('上传完成', Toast.SHORT);
-    });
+    this.state.rotateValue.stopAnimation(() => {});
     this.state.rotateValue.setValue(0);
   }
 
