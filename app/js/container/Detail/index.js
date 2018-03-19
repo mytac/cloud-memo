@@ -90,9 +90,18 @@ export default class Detail extends Component {
     }
   }
 
-  deleteData() {
+  async deleteData() {
+    const { id } = this.state;
     this.setState({ isDelete: true });
     this.newArticles.splice(this.index, 1);
+    if (id.length > 0) {
+      try {
+        await request('/delete', { id });
+      } catch (e) {
+        Toast.show('删除失败，请直接从库中删除',Toast.SHORT)
+        console.log(e);
+      }
+    }
     this.props.navigation.goBack();
   }
 
