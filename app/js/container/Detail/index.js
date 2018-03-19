@@ -12,13 +12,15 @@ export default class Detail extends Component {
     const { index, articles } = this.props.navigation.state.params;
     const currentArticle = articles[index];
     this.state = {
+      isDelete: false, // 是否进行了删除操作，为了控制返回时是否进行更新操作
       /* 文本 */
       id: index > -1 ? currentArticle.id : '',
       title: index > -1 ? currentArticle.title : '',
       content: index > -1 ? currentArticle.content : '',
-
       inputBoxHeight: new Animated.Value(),
     };
+    this.index = index;
+    this.newArticles = [].concat(articles);
     this.onChange = this.onChange.bind(this);
     this.registEmitter = this.registEmitter.bind(this);
   }
@@ -28,11 +30,15 @@ export default class Detail extends Component {
   }
 
   componentWillUnmount() {
-    this.updateArticle();
+    /* eslint-disable no-unused-expressions */
+    !this.state.isDelete && this.updateArticle();
+    this.updateArticlesToStateTreeAndLocal(this.newArticles);
     this.deEmitter.remove();
+    this.deleteEmitter.remove();
   }
 
   onChange(event) {
+    // 输入时自动调节输入框高度
     const contentSize = event.nativeEvent.contentSize.height;
     Animated.timing(
       this.state.inputBoxHeight,
@@ -42,11 +48,21 @@ export default class Detail extends Component {
     ).start();
   }
 
+  updateArticlesToStateTreeAndLocal(newArticles) {
+    const { updateArticle } = this.props.navigation.state.params;
+    updateArticle(newArticles);
+  }
+
   registEmitter() {
     this.deEmitter = DeviceEventEmitter.addListener('uploading', () => {
       // 上传操作
       this.uploadData();
       DeviceEventEmitter.emit('isUploaded', true);
+    });
+
+    this.deleteEmitter = DeviceEventEmitter.addListener('deleteArticle', () => {
+      // 监听是否执行删除操作
+      this.deleteData();
     });
   }
 
@@ -65,9 +81,19 @@ export default class Detail extends Component {
   }
 
   updateArticle() {
-    const { updateArticle, index } = this.props.navigation.state.params;
     const { title, content, id } = this.state;
-    updateArticle(title, content, index, id);
+    const newData = { title, content, id };
+    if (this.index !== undefined) {
+      this.newArticles[this.index] = newData;
+    } else {
+      this.newArticles.push(newData);
+    }
+  }
+
+  deleteData() {
+    this.setState({ isDelete: true });
+    this.newArticles.splice(this.index, 1);
+    this.props.navigation.goBack();
   }
 
   render() {

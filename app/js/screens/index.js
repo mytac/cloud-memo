@@ -1,7 +1,8 @@
 import React from 'react';
+import { View } from 'react-native';
 import List from '../container/List';
 import Detail from '../container/Detail';
-import { navOptions, NavBtn, BackBtn, UploadBtn } from './navigations';
+import { navOptions, NavBtn, BackBtn, UploadBtn, DeleteBtn } from './navigations';
 import { Toast } from '../component/Toast';
 
 export default {
@@ -20,7 +21,11 @@ export default {
         Toast.show('test', Toast.SHORT);
       }}
         />,
-        headerRight: <UploadBtn />,
+        headerRight:
+  <View style={{ flexDirection: 'row' }}>
+    <DeleteBtn />
+    <UploadBtn />
+  </View>,
       },
     ),
   },
