@@ -13,6 +13,7 @@ export default class Detail extends Component {
     const currentArticle = articles[index];
     this.state = {
       /* 文本 */
+      id: index > -1 ? currentArticle.id : '',
       title: index > -1 ? currentArticle.title : '',
       content: index > -1 ? currentArticle.content : '',
 
@@ -50,10 +51,12 @@ export default class Detail extends Component {
   }
 
   async uploadData() {
-    const { content, title } = this.state;
+    const { content, title, id } = this.state;
     try {
-      const result = await request('/upload', { content, title });
-      console.log('result', result);
+      const result = await request('/upload', { content, title, id });
+      if (result.id) {
+        this.setState({ id: result.id });
+      }
       // 上传成功
       Toast.show('上传成功', Toast.SHORT);
     } catch (e) {
@@ -63,8 +66,8 @@ export default class Detail extends Component {
 
   updateArticle() {
     const { updateArticle, index } = this.props.navigation.state.params;
-    const { title, content } = this.state;
-    updateArticle(title, content, index);
+    const { title, content, id } = this.state;
+    updateArticle(title, content, index, id);
   }
 
   render() {
