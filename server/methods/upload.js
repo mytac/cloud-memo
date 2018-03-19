@@ -19,7 +19,12 @@ function upload(req, res) {
   } else {
     connectDB
       .then(db => insertDocuments(db, { context, title }))
-      .then(data => res.json(data))
+      .then((data) => {
+        const newId = new ObjectID();
+        const backData = Object.assign(data);
+        backData.body.id = newId;
+        return res.json(backData);
+      })
       .catch((err) => { unknowError(err, res); });
   }
 }
