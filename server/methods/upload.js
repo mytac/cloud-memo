@@ -6,7 +6,7 @@ const { parameterInvalid, unknowError } = require('../lib/handleErrors');
 
 function upload(req, res) {
   const { content, title, id } = req.body;
-  if (!content || !title) {
+  if (!content) {
     parameterInvalid(res);
     return;
   }
