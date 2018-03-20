@@ -3,21 +3,25 @@ import PropTypes from 'prop-types';
 import { Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { px2dp } from '../../utils/px2dp';
 
-export default function Listitem({ msg, color, onPress }) {
+export default function Listitem({
+  title, content, time, color, onPress,
+}) {
   return (
     <TouchableOpacity
       onPress={onPress}
       style={[styles.wrapper, { backgroundColor: color }]}
     >
-      <Text style={styles.title}>{msg}</Text>
-      <Text style={styles.description}>{msg}</Text>
-      <Text style={styles.date}>{msg}</Text>
+      <Text style={styles.title}>{title}</Text>
+      <Text style={styles.description}>{content}</Text>
+      <Text style={styles.date}>{time}</Text>
     </TouchableOpacity>
   );
 }
 
 Listitem.propTypes = {
-  msg: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
+  content: PropTypes.string.isRequired,
+  time: PropTypes.string.isRequired,
   color: PropTypes.string.isRequired,
   onPress: PropTypes.func.isRequired,
 };

@@ -37,7 +37,6 @@ export default class List extends Component {
   }
 
   updateArticle(newArticles) {
-    console.log('newArticles',newArticles)
     this.setState({
       articles: newArticles,
     });
@@ -62,7 +61,13 @@ export default class List extends Component {
             <FlatList
               data={articles}
               renderItem={({ item, index }) => (
-                <Listitem msg={item.title} color={colorSet[index % 4]} onPress={() => this.goto('Detail', index)} />
+                <Listitem
+                  title={item.title}
+                  content={item.content.length > 25 ? `${item.content.slice(0, 25)}...` : item.content}
+                  time={item.time || ''}
+                  color={colorSet[index % 4]}
+                  onPress={() => this.goto('Detail', index)}
+                />
             )}
               onEndReachedThreshold={10}
               onEndReached={this.load}

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { ScrollView, TextInput, StyleSheet, Animated, DeviceEventEmitter } from 'react-native';
 import { px2dp } from '../../utils/px2dp';
 import request from '../../utils/request';
+import getTime from '../../utils/getTime';
 import { Toast } from '../../component/Toast/index';
 
 
@@ -86,7 +87,10 @@ export default class Detail extends Component {
 
   updateArticle() {
     const { title, content, id } = this.state;
-    const newData = { title, content, id };
+    const time = getTime();
+    const newData = {
+      title, content, id, time,
+    };
     if (title.length === 0) {
       newData.title = content.slice(0, 6);
     }
