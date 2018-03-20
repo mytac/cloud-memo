@@ -33,7 +33,11 @@ export default class List extends Component {
 
   getNewData() {
     getArticles()
-      .then((value) => { this.setState({ articles: value }); });
+      .then((value) => {
+        if (value) {
+          this.setState({ articles: value });
+        }
+      });
   }
 
   updateArticle(newArticles) {
