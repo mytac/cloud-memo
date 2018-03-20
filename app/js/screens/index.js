@@ -2,13 +2,16 @@ import React from 'react';
 import { View } from 'react-native';
 import List from '../container/List';
 import Detail from '../container/Detail';
-import { navOptions, NavBtn, BackBtn, UploadBtn, DeleteBtn } from './navigations';
+import { navOptions, BackBtn, UploadBtn, DeleteBtn } from './navigations';
 import { Toast } from '../component/Toast';
+
 
 export default {
   List: {
     screen: List,
-    navigationOptions: () => navOptions(''),
+    navigationOptions: () => ({
+      header: null,
+    }),
   },
   Detail: {
     screen: Detail,

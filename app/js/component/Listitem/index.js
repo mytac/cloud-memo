@@ -12,7 +12,7 @@ export default function Listitem({
       style={[styles.wrapper, { backgroundColor: color }]}
     >
       <Text style={styles.title}>{title}</Text>
-      <Text style={styles.description}>{content}</Text>
+      <Text style={styles.description} numberOfLines={1}>{content}</Text>
       <Text style={styles.date}>{time}</Text>
     </TouchableOpacity>
   );
