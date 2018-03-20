@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { ScrollView, TextInput, StyleSheet, Animated, DeviceEventEmitter } from 'react-native';
 import { px2dp } from '../../utils/px2dp';
 import request from '../../utils/request';
+import getTime from '../../utils/getTime';
 import { Toast } from '../../component/Toast/index';
 
 
@@ -30,9 +31,13 @@ export default class Detail extends Component {
   }
 
   componentWillUnmount() {
+    const { isDelete, title, content } = this.state;
     /* eslint-disable no-unused-expressions */
-    !this.state.isDelete && this.updateArticle();
-    this.updateArticlesToStateTreeAndLocal(this.newArticles);
+    !isDelete && this.updateArticle();
+    // 空值检测
+    if (title.length > 0 || content.length > 0) {
+      this.updateArticlesToStateTreeAndLocal(this.newArticles);
+    }
     this.deEmitter.remove();
     this.deleteEmitter.remove();
   }
@@ -82,7 +87,13 @@ export default class Detail extends Component {
 
   updateArticle() {
     const { title, content, id } = this.state;
-    const newData = { title, content, id };
+    const time = getTime();
+    const newData = {
+      title, content, id, time,
+    };
+    if (title.length === 0) {
+      newData.title = content.slice(0, 6);
+    }
     if (this.index !== undefined) {
       this.newArticles[this.index] = newData;
     } else {
@@ -98,7 +109,7 @@ export default class Detail extends Component {
       try {
         await request('/delete', { id });
       } catch (e) {
-        Toast.show('删除失败，请直接从库中删除',Toast.SHORT)
+        Toast.show('删除失败，请直接从库中删除', Toast.SHORT);
         console.log(e);
       }
     }

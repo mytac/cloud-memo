@@ -14,7 +14,7 @@ function NavBtn({ onPress, iconName, color }) {
           justifyContent: 'center',
         }}
     >
-      <Icon name={iconName} size={30} color={color} />
+      <Icon name={iconName} size={px2dp(40)} color={color} />
     </TouchableOpacity>
   );
 }

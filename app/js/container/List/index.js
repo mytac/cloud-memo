@@ -33,17 +33,21 @@ export default class List extends Component {
 
   getNewData() {
     getArticles()
-      .then((value) => { this.setState({ articles: value }); });
+      .then((value) => {
+        if (value) {
+          this.setState({ articles: value });
+        }
+      });
   }
 
   updateArticle(newArticles) {
-    console.log('newArticles',newArticles)
     this.setState({
       articles: newArticles,
     });
   }
 
   goto(tar, index) {
+    console.log(this.state.articles);
     this.props.navigation.navigate(
       tar,
       { articles: this.state.articles, index, updateArticle: this.updateArticle },
@@ -58,18 +62,27 @@ export default class List extends Component {
         <Nav />
         <AddBtn onPress={() => this.goto('Detail')} />
         <View style={{ flex: 1 }}>
-          {articles.length > 0 ?
+          {articles && articles.length > 0 ?
             <FlatList
               data={articles}
               renderItem={({ item, index }) => (
-                <Listitem msg={item.title} color={colorSet[index % 4]} onPress={() => this.goto('Detail', index)} />
+                <Listitem
+                  title={item.title}
+                  content={item.content.length > 25 ? `${item.content.slice(0, 24)}...` : item.content}
+                  time={item.time || ''}
+                  color={colorSet[index % 4]}
+                  onPress={() => this.goto('Detail', index)}
+                />
             )}
               onEndReachedThreshold={10}
               onEndReached={this.load}
               style={{ flex: 1 }}
             />
             :
-            <Text>没有记录</Text>}
+            <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+              <Text>没有记录</Text>
+            </View>
+          }
         </View>
       </View>
     );

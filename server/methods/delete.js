@@ -10,8 +10,6 @@ function remove(req, res) {
     return;
   }
 
-  console.log('id', id);
-
   connectDB
     .then(db => removeDocument(db, { _id: new ObjectID(id) }))
     .then(data => res.json(data))
