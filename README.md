@@ -3,7 +3,7 @@ An RNapp can upload your memo to ur cloud.
 
 写这个app的初衷是由于现在的记事本app都太冗余了，我很喜欢google的keep，但要是想同步的话还要翻墙；有道云笔记又有些大，ui也不够直观，太办公向了，写博客我很喜欢，但随手写点备忘录，还是显得有点重。正好我使用react native也有一段时间了，学node一直也找不到自己喜欢的项目练手，不如就自己写一个吧~在写这个项目之前，可以说一点都不了解mongoDB，不了解他的数据结构；可以说是一个完全的后端小白了。。
 
-![demo](https://upload-images.jianshu.io/upload_images/3790386-4a7f6e7d3b28ce62..gif?imageMogr2/auto-orient/strip%7CimageView2/2/w/386)
+![demo](http://chuantu.biz/t6/261/1521618722x-1404755702.gif)
 
 [download page(android only)](https://mytac.github.io/cloud-memo-download)
 
