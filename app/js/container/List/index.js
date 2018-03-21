@@ -72,6 +72,7 @@ export default class List extends Component {
                   time={item.time || ''}
                   color={colorSet[index % 4]}
                   onPress={() => this.goto('Detail', index)}
+                  isUpload={!!item.id}
                 />
             )}
               onEndReachedThreshold={10}

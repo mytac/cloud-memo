@@ -1,10 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { Text, StyleSheet, TouchableOpacity, View } from 'react-native';
+import Icon from 'react-native-vector-icons/FontAwesome';
 import { px2dp } from '../../utils/px2dp';
 
 export default function Listitem({
-  title, content, time, color, onPress,
+  title, content, time, color, onPress, isUpload,
 }) {
   return (
     <TouchableOpacity
@@ -13,7 +14,10 @@ export default function Listitem({
     >
       <Text style={styles.title}>{title}</Text>
       <Text style={styles.description} numberOfLines={1}>{content}</Text>
-      <Text style={styles.date}>{time}</Text>
+      <View style={styles.dateWrapper}>
+        <Text style={styles.date}>{time}</Text>
+        <Icon name="cloud-upload" size={px2dp(20)} color={isUpload ? '#1d9d74' : '#999'} style={{ marginLeft: px2dp(20) }} />
+      </View>
     </TouchableOpacity>
   );
 }
@@ -24,6 +28,7 @@ Listitem.propTypes = {
   time: PropTypes.string.isRequired,
   color: PropTypes.string.isRequired,
   onPress: PropTypes.func.isRequired,
+  isUpload: PropTypes.bool.isRequired,
 };
 
 const styles = StyleSheet.create({
@@ -45,5 +50,9 @@ const styles = StyleSheet.create({
   date: {
     fontSize: px2dp(20),
     color: '#aaa',
+  },
+  dateWrapper: {
+    flexDirection: 'row',
+    alignItems: 'center',
   },
 });
