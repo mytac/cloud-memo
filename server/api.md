@@ -6,7 +6,9 @@
 body
 
 {
-    "context":"hello world"
+    "title":"title-test6~~~",
+    "context":"hello world",
+    "id":" "  // 可选
 }
 ```
 响应
@@ -15,32 +17,12 @@ body
     "status": 0,
     "body": {
         "n": 1,
-        "ok": 1
+        "ok": 1,
+        "id":返回新增的id
     }
 }
 ```
-### 查找或拉取文章列表
-#### {{URL}}/findByLabel
-请求
-```
-body
 
-{
-	"id":"5a82b4e57a8bc7134cca641a" 
-}
-```
-响应
-```
-{
-    "status": 0,
-    "body": [
-        {
-            "_id": "5a82b4e57a8bc7134cca641a",
-            "context": "hello world"
-        }
-    ]
-}
-```
 ### 删除文章
 #### {{URL}}/delete
 请求
@@ -61,24 +43,27 @@ body
     }
 }
 ```
-### 更新
-#### {{URL}}/update
+
+
+### 查找或拉取文章列表
+#### {{URL}}/findByLabel
 请求
 ```
 body
+
 {
-	"id":"5a9cb46aa0f7ed28149b0dd0",
-	"context":"updated!!"
+	"id":"5a82b4e57a8bc7134cca641a" 
 }
 ```
 响应
 ```
 {
     "status": 0,
-    "body": {
-        "n": 1,
-        "nModified": 0,
-        "ok": 1
-    }
+    "body": [
+        {
+            "_id": "5a82b4e57a8bc7134cca641a",
+            "context": "hello world"
+        }
+    ]
 }
 ```
