@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { View, FlatList, Text } from 'react-native';
+import { MenuContext } from 'react-native-menu';
 import Listitem from '../../component/Listitem';
 import AddBtn from '../../component/AddBtn';
 import Nav from './Nav';
@@ -58,7 +59,7 @@ export default class List extends Component {
   render() {
     const { articles } = this.state;
     return (
-      <View style={{ flex: 1 }}>
+      <MenuContext style={{ flex: 1 }}>
         <Nav />
         <AddBtn onPress={() => this.goto('Detail')} />
         <View style={{ flex: 1 }}>
@@ -85,7 +86,7 @@ export default class List extends Component {
             </View>
           }
         </View>
-      </View>
+      </MenuContext>
     );
   }
 }
