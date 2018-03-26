@@ -26,6 +26,7 @@ export default function Dialog({
             <View style={{ flexDirection: 'row', justifyContent: 'flex-end' }}>
               {btnSetting.length > 0 && btnSetting.map(btn => (
                 <TouchableOpacity
+                  key={btn.name}
                   onPress={btn.onPress}
                   style={[styles.buttonWrapper, btn.btnStyle]}
                 >
