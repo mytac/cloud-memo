@@ -15,11 +15,31 @@ async function getArticles() {
   let value;
   try {
     value = await AsyncStorage.getItem('Articles');
-    console.log('Articles', value);
   } catch (e) {
     throw e;
   }
   return JSON.parse(value);
 }
 
-export { getArticles, setArticles };
+async function setServerUrl(url) {
+  let status = false;
+  try {
+    await AsyncStorage.setItem('serverUrl', url);
+    status = true;
+  } catch (e) {
+    throw e;
+  }
+  return status;
+}
+
+async function getServerUrl() {
+  let value;
+  try {
+    value = await AsyncStorage.getItem('serverUrl');
+  } catch (e) {
+    throw e;
+  }
+  return value;
+}
+
+export { getArticles, setArticles, setServerUrl, getServerUrl };

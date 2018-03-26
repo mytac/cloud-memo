@@ -1,9 +1,11 @@
 import axios from 'axios';
 import createError from './createError';
+import { getServerUrl } from './localStorage';
+
 
 export default function request(url, body) {
-  return axios
-    .post(`http://192.168.10.248:8888${url}`, body)
+  return getServerUrl().then(serverUrl => axios
+    .post(`http://${serverUrl}${url}`, body)
     .then(response => response.data)
     .then((response) => {
       if (response.status === 1) throw createError(response.code);
@@ -13,9 +15,8 @@ export default function request(url, body) {
       if (error instanceof SyntaxError) {
         throw createError('SYNTAX_JSON');
       }
-      // JSON解析错误
       /* eslint-disable no-console */
       console.log(error);
       throw createError('ERROR');
-    });
+    }));
 }
