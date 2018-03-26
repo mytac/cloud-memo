@@ -1,50 +1,64 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { Modal, Text, TouchableOpacity, View, StyleSheet } from 'react-native';
 import { px2dp } from '../../utils/px2dp';
 
-export default class Dialog extends Component {
-  constructor(props) {
-    super(props);
-  }
-
-
-  render() {
-    return (
-      <View style={{ marginBottom: px2dp(250) }}>
-        <Modal
-          animationType="slide"
-          transparent
-          visible={this.props.isVisible}
-        >
-          <View style={styles.mask}>
-            <View style={styles.innerContainer}>
-              <View style={styles.titleWrapper}>
-                <Text style={styles.titleText}>{this.props.title}</Text>
-              </View>
-              <View>
-                {React.Children.map(this.props.children, child => child)}
-              </View>
-
-              <TouchableOpacity onPress={this.props.onClose}>
-                <Text>关闭</Text>
-              </TouchableOpacity>
+export default function Dialog({
+  btnSetting, isShowDefaultBtn, title, isVisible, children, onClose,
+}) {
+  return (
+    <View style={{ marginBottom: px2dp(250) }}>
+      <Modal
+        animationType="fade"
+        transparent
+        visible={isVisible}
+        onRequestClose={() => {}}
+      >
+        <View style={styles.mask}>
+          <View style={styles.innerContainer}>
+            <View style={styles.titleWrapper}>
+              <Text style={styles.titleText}>{title}</Text>
             </View>
+            <View style={styles.contentWrapper}>
+              {React.Children.map(children, child => child)}
+            </View>
+
+            <View style={{ flexDirection: 'row', justifyContent: 'flex-end' }}>
+              {btnSetting.length > 0 && btnSetting.map(btn => (
+                <TouchableOpacity
+                  onPress={btn.onPress}
+                  style={[styles.buttonWrapper, btn.btnStyle]}
+                >
+                  <Text style={[{ fontSize: px2dp(26) }, btn.textStyle]}>{btn.name}</Text>
+                </TouchableOpacity>))}
+              {isShowDefaultBtn &&
+                <TouchableOpacity onPress={onClose} style={styles.buttonWrapper}>
+                  <Text style={{ fontSize: px2dp(26) }}>关闭</Text>
+                </TouchableOpacity>}
+
+            </View>
+
           </View>
-        </Modal>
-      </View>
-    );
-  }
+        </View>
+      </Modal>
+    </View>
+  );
 }
 
 Dialog.propTypes = {
   isVisible: PropTypes.bool.isRequired,
+  isShowDefaultBtn: PropTypes.bool,
   onClose: PropTypes.func.isRequired,
-  title: PropTypes.string,
+  title: PropTypes.string, // modal name
+  children: PropTypes.node, // content node
+  btnSetting: PropTypes.array,
 };
 
 Dialog.defaultProps = {
   title: '提示',
+  children: <View />,
+  btnSetting: [],
+  isShowDefaultBtn: true,
 };
 
 const styles = StyleSheet.create({
@@ -69,5 +83,11 @@ const styles = StyleSheet.create({
   titleText: {
     color: '#000',
     fontSize: px2dp(36),
+  },
+  contentWrapper: {
+    marginBottom: px2dp(20),
+  },
+  buttonWrapper: {
+    marginLeft: px2dp(20),
   },
 });
