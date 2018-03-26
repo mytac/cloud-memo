@@ -15,8 +15,9 @@ export default class Setting extends React.Component {
   }
 
   btnPress() {
-    console.log(this.state);
-    this.props.onClose();
+    setServerUrl(this.state.serverUrl).then((status) => {
+      if (status) { this.props.onClose(); }
+    });
   }
 
   render() {
@@ -32,6 +33,7 @@ export default class Setting extends React.Component {
         <Text style={{ fontSize: px2dp(26) }}>设置服务器地址</Text>
         <TextInput
           value={this.state.serverUrl}
+          onChangeText={(text) => { this.setState({ serverUrl: text }); }}
         />
       </Dialog>
     );
