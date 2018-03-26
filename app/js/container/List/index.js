@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { View, FlatList, Text } from 'react-native';
+import { View, FlatList, Text, TouchableOpacity } from 'react-native';
 import { MenuContext } from 'react-native-menu';
 import Listitem from '../../component/Listitem';
 import AddBtn from '../../component/AddBtn';
 import Nav from './Nav';
 import { getArticles, setArticles } from '../../utils/localStorage';
+import Setting from '../Setting';
 
 /* 不同类型对应不同背景 */
 const colorSet = ['#def2ff', '#bfeabe', '#f2d8c6', '#f0efb0'];
@@ -15,10 +16,12 @@ export default class List extends Component {
     super(props);
     this.state = {
       articles: [],
+      isVisible: false,
     };
     this.goto = this.goto.bind(this);
     this.getNewData = this.getNewData.bind(this);
     this.updateArticle = this.updateArticle.bind(this);
+    this.toggleModal = this.toggleModal.bind(this);
   }
 
   componentDidMount() {
@@ -55,6 +58,13 @@ export default class List extends Component {
     );
   }
 
+  toggleModal() {
+    const { isVisible } = this.state;
+    this.setState({
+      isVisible: !isVisible,
+    });
+  }
+
 
   render() {
     const { articles } = this.state;
@@ -86,6 +96,10 @@ export default class List extends Component {
             </View>
           }
         </View>
+        <TouchableOpacity onPress={this.toggleModal}>
+          <Text>open modal</Text>
+        </TouchableOpacity>
+        <Setting isVisible={this.state.isVisible} onClose={this.toggleModal} />
       </MenuContext>
     );
   }

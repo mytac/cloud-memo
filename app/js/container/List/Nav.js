@@ -4,6 +4,11 @@ import { Text, View, StyleSheet, TouchableOpacity } from 'react-native';
 import Menu, { MenuOptions, MenuOption, MenuTrigger } from 'react-native-menu';
 import { px2dp } from '../../utils/px2dp';
 
+const menuSet = [
+  { title: '设置', value: 'setting' },
+  { title: '夜间模式切换', value: 'night-model' },
+];
+
 export default function Nav() {
   return (
     <View style={styles.wrapper}>
@@ -17,17 +22,18 @@ export default function Nav() {
         <TouchableOpacity style={{ width: px2dp(100) }} >
           <Icon name="refresh" size={px2dp(40)} />
         </TouchableOpacity>
-        <Menu onSelect={value => alert(`User selected the number ${value}`)}>
+        <Menu
+          onSelect={value => alert(`User selected the number ${value}`)}
+        >
           <MenuTrigger>
             <Icon name="bars" size={px2dp(40)} />
           </MenuTrigger>
           <MenuOptions>
-            <MenuOption value={1}>
-              <Text>One</Text>
-            </MenuOption>
-            <MenuOption value={2}>
-              <Text>Two</Text>
-            </MenuOption>
+            {menuSet.map(data => (
+              <MenuOption value={data.value} key={data.value}>
+                <Text style={{ fontSize: px2dp(25) }}>{data.title}</Text>
+              </MenuOption>
+              ))}
           </MenuOptions>
         </Menu>
       </View>
