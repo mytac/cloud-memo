@@ -51,7 +51,6 @@ export default class List extends Component {
   }
 
   goto(tar, index) {
-    console.log(this.state.articles);
     this.props.navigation.navigate(
       tar,
       { articles: this.state.articles, index, updateArticle: this.updateArticle },
@@ -70,7 +69,7 @@ export default class List extends Component {
     const { articles } = this.state;
     return (
       <MenuContext style={{ flex: 1 }}>
-        <Nav />
+        <Nav selectSetting={this.toggleModal} />
         <AddBtn onPress={() => this.goto('Detail')} />
         <View style={{ flex: 1 }}>
           {articles && articles.length > 0 ?
@@ -96,9 +95,6 @@ export default class List extends Component {
             </View>
           }
         </View>
-        <TouchableOpacity onPress={this.toggleModal}>
-          <Text>open modal</Text>
-        </TouchableOpacity>
         <Setting isVisible={this.state.isVisible} onClose={this.toggleModal} />
       </MenuContext>
     );

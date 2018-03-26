@@ -1,5 +1,6 @@
 import React from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import PropTypes from 'prop-types';
 import { Text, View, StyleSheet, TouchableOpacity } from 'react-native';
 import Menu, { MenuOptions, MenuOption, MenuTrigger } from 'react-native-menu';
 import { px2dp } from '../../utils/px2dp';
@@ -9,7 +10,7 @@ const menuSet = [
   { title: '夜间模式切换', value: 'night-model' },
 ];
 
-export default function Nav() {
+export default function Nav({ selectSetting }) {
   return (
     <View style={styles.wrapper}>
       <View style={[styles.grid, styles.leftGrid]}>
@@ -23,7 +24,7 @@ export default function Nav() {
           <Icon name="refresh" size={px2dp(40)} />
         </TouchableOpacity>
         <Menu
-          onSelect={value => alert(`User selected the number ${value}`)}
+          onSelect={value => (value === 'setting' ? selectSetting() : () => {})}
         >
           <MenuTrigger>
             <Icon name="bars" size={px2dp(40)} />
@@ -40,6 +41,11 @@ export default function Nav() {
     </View>
   );
 }
+
+Nav.propTypes = {
+  selectSetting: PropTypes.func.isRequired,
+};
+
 
 const styles = StyleSheet.create({
   wrapper: {
