@@ -4,30 +4,38 @@ import PropTypes from 'prop-types';
 import { Text, View, StyleSheet, TouchableOpacity } from 'react-native';
 import Menu, { MenuOptions, MenuOption, MenuTrigger } from 'react-native-menu';
 import { px2dp } from '../../utils/px2dp';
+import { nightModelStyle } from '../../constants/style';
 
 const menuSet = [
   { title: '设置', value: 'setting' },
   { title: '夜间模式切换', value: 'night-model' },
 ];
 
-export default function Nav({ selectSetting }) {
+
+export default function Nav({ selectSetting, isNightModel }) {
+  const { wrapper, text } = nightModelStyle;
+  const nightTextColor = !isNightModel && text;
+
+  /* eslint-disable react/prop-types */
+  const MyIcon = ({ name }) => <Icon name={name} size={px2dp(40)} style={nightTextColor} />;
+
   return (
-    <View style={styles.wrapper}>
+    <View style={[styles.wrapper, !isNightModel && wrapper]}>
       <View style={[styles.grid, styles.leftGrid]}>
         <TouchableOpacity style={{ width: px2dp(60) }}>
-          <Icon name="folder" size={px2dp(40)} />
+          <MyIcon name="folder" />
         </TouchableOpacity>
-        <Text style={styles.header}>All</Text>
+        <Text style={[styles.header, nightTextColor]}>All</Text>
       </View>
       <View style={[styles.grid, styles.rightGrid]}>
         <TouchableOpacity style={{ width: px2dp(100) }} >
-          <Icon name="refresh" size={px2dp(40)} />
+          <MyIcon name="refresh" />
         </TouchableOpacity>
         <Menu
           onSelect={value => (value === 'setting' ? selectSetting() : () => {})}
         >
           <MenuTrigger>
-            <Icon name="bars" size={px2dp(40)} />
+            <MyIcon name="bars" />
           </MenuTrigger>
           <MenuOptions>
             {menuSet.map(data => (
@@ -44,6 +52,7 @@ export default function Nav({ selectSetting }) {
 
 Nav.propTypes = {
   selectSetting: PropTypes.func.isRequired,
+  isNightModel: PropTypes.bool.isRequired,
 };
 
 

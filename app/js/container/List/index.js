@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { View, FlatList, Text, TouchableOpacity } from 'react-native';
+import { View, FlatList, Text } from 'react-native';
 import { MenuContext } from 'react-native-menu';
 import Listitem from '../../component/Listitem';
 import AddBtn from '../../component/AddBtn';
 import Nav from './Nav';
 import { getArticles, setArticles } from '../../utils/localStorage';
+import { nightModelStyle } from '../../constants/style';
 import Setting from '../Setting';
 
 /* 不同类型对应不同背景 */
@@ -17,6 +18,7 @@ export default class List extends Component {
     this.state = {
       articles: [],
       isVisible: false,
+      isNightModel: false,
     };
     this.goto = this.goto.bind(this);
     this.getNewData = this.getNewData.bind(this);
@@ -25,6 +27,7 @@ export default class List extends Component {
   }
 
   componentDidMount() {
+    console.log(this.props);
     this.getNewData();
   }
 
@@ -66,12 +69,19 @@ export default class List extends Component {
 
 
   render() {
-    const { articles } = this.state;
+    const { articles, isNightModel } = this.state;
+    const { text, wrapper } = nightModelStyle;
+
+    const nightTextColor = !isNightModel && text;
+    const nightWrapper = !isNightModel && wrapper;
+
+    const nightModelStyleProp = { nightTextColor, nightWrapper };
+
     return (
       <MenuContext style={{ flex: 1 }}>
-        <Nav selectSetting={this.toggleModal} />
+        <Nav selectSetting={this.toggleModal} isNightModel={isNightModel} />
         <AddBtn onPress={() => this.goto('Detail')} />
-        <View style={{ flex: 1 }}>
+        <View style={[{ flex: 1 }, nightWrapper]}>
           {articles && articles.length > 0 ?
             <FlatList
               data={articles}
@@ -90,12 +100,16 @@ export default class List extends Component {
               style={{ flex: 1 }}
             />
             :
-            <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-              <Text>没有记录</Text>
+            <View style={[{ flex: 1, alignItems: 'center', justifyContent: 'center' }, nightWrapper]}>
+              <Text style={nightTextColor}>没有记录</Text>
             </View>
           }
         </View>
-        <Setting isVisible={this.state.isVisible} onClose={this.toggleModal} />
+        <Setting
+          isVisible={this.state.isVisible}
+          onClose={this.toggleModal}
+          nightModelStyle={nightModelStyleProp}
+        />
       </MenuContext>
     );
   }

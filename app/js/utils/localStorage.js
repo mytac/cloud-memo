@@ -42,4 +42,25 @@ async function getServerUrl() {
   return value;
 }
 
-export { getArticles, setArticles, setServerUrl, getServerUrl };
+async function setItem(k, v) {
+  let status = false;
+  try {
+    await AsyncStorage.setItem(k, typeof v !== 'object' ? v : JSON.stringify(v));
+    status = true;
+  } catch (e) {
+    throw e;
+  }
+  return status;
+}
+
+async function getItem(k) {
+  let value;
+  try {
+    value = await AsyncStorage.getItem(k);
+  } catch (e) {
+    throw e;
+  }
+  return value;
+}
+
+export { getArticles, setArticles, setServerUrl, getServerUrl, setItem, getItem };

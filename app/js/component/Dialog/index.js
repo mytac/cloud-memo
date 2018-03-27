@@ -7,17 +7,17 @@ export default function Dialog({
   btnSetting, isShowDefaultBtn, title, isVisible, children, onClose,
 }) {
   return (
-    <View style={{ marginBottom: px2dp(250) }}>
+    <View>
       <Modal
         animationType="fade"
         transparent
         visible={isVisible}
         onRequestClose={() => {}}
       >
-        <View style={styles.mask}>
-          <View style={styles.innerContainer}>
+        <View style={[styles.mask]}>
+          <View style={[styles.innerContainer]}>
             <View style={styles.titleWrapper}>
-              <Text style={styles.titleText}>{title}</Text>
+              <Text style={[styles.titleText]}>{title}</Text>
             </View>
             <View style={styles.contentWrapper}>
               {React.Children.map(children, child => child)}
