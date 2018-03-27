@@ -3,7 +3,7 @@ import { Text, TextInput } from 'react-native';
 import PropTypes from 'prop-types';
 import Dialog from '../../component/Dialog';
 import { px2dp } from '../../utils/px2dp';
-import { setServerUrl } from '../../utils/localStorage';
+import { setServerUrl, getServerUrl } from '../../utils/localStorage';
 
 export default class Setting extends React.Component {
   constructor(props) {
@@ -12,6 +12,14 @@ export default class Setting extends React.Component {
       serverUrl: '192.168.10.248:8888',
     };
     this.btnPress = this.btnPress.bind(this);
+  }
+
+  componentDidMount() {
+    getServerUrl().then((serverUrl) => {
+      this.setState({
+        serverUrl,
+      });
+    });
   }
 
   btnPress() {
