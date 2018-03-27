@@ -13,6 +13,7 @@ An RNapp can upload your memo to ur cloud.
 3. ~~自己配置服务器地址~~ 3.26✔
 4. ~~拉取列表的分页~~ 3.21✔ 
 5. 夜间模式
+6. node模块路径解析器
 
 ## 一些文档
 1.[接口文档](https://github.com/mytac/cloud-memo/blob/master/server/api.md)
