@@ -14,6 +14,8 @@ An RNapp can upload your memo to ur cloud.
 4. ~~拉取列表的分页~~ 3.21✔ 
 5. 夜间模式
 6. node模块路径解析器
+7. 封装操作asyncStorage的函数
+8. 引入redux
 
 ## 一些文档
 1.[接口文档](https://github.com/mytac/cloud-memo/blob/master/server/api.md)
