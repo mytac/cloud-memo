@@ -10,8 +10,13 @@ export default class NightModel extends React.Component {
 
 
   render() {
+    const { isVisible, onClose } = this.props;
     return (
-      <Dialog title="夜间模式" />
+      <Dialog
+        title="夜间模式"
+        isVisible={isVisible}
+        onClose={onClose}
+      />
     );
   }
 }

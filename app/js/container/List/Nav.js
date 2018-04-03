@@ -12,16 +12,19 @@ const menuSet = [
 ];
 
 
-export default function Nav({ selectSetting, isNightModel }) {
+export default function Nav({
+  isNightModel, openModal,
+}) {
   const { wrapper, text } = nightModelStyle;
-  const nightTextColor = !isNightModel && text;
+  const nightTextColor = isNightModel && text;
+  const nightWrapper = isNightModel && wrapper;
 
   /* eslint-disable react/prop-types */
   const MyIcon = ({ name }) => <Icon name={name} size={px2dp(40)} style={nightTextColor} />;
 
   return (
-    <View style={[styles.wrapper, !isNightModel && wrapper]}>
-      <View style={[styles.grid, styles.leftGrid]}>
+    <View style={[styles.wrapper, nightWrapper]}>
+      <View style={[styles.grid]}>
         <TouchableOpacity style={{ width: px2dp(60) }}>
           <MyIcon name="folder" />
         </TouchableOpacity>
@@ -32,7 +35,7 @@ export default function Nav({ selectSetting, isNightModel }) {
           <MyIcon name="refresh" />
         </TouchableOpacity>
         <Menu
-          onSelect={value => (value === 'setting' ? selectSetting() : () => {})}
+          onSelect={value => openModal(value)}
         >
           <MenuTrigger>
             <MyIcon name="bars" />
@@ -51,7 +54,7 @@ export default function Nav({ selectSetting, isNightModel }) {
 }
 
 Nav.propTypes = {
-  selectSetting: PropTypes.func.isRequired,
+  openModal: PropTypes.func.isRequired,
   isNightModel: PropTypes.bool.isRequired,
 };
 
