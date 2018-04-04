@@ -18,9 +18,9 @@ export default class List extends Component {
     super(props);
     this.state = {
       articles: [],
-      isVisible: false,
       isNightModel: false,
       isShowNightModal: false,
+      isSettingVisible: false,
     };
     this.goto = this.goto.bind(this);
     this.getNewData = this.getNewData.bind(this);
@@ -71,6 +71,7 @@ export default class List extends Component {
   closeModal() {
     this.setState({
       isShowNightModal: false,
+      isSettingVisible: false,
     });
   }
 
@@ -125,8 +126,9 @@ export default class List extends Component {
           }
         </View>
         <Setting
-          isVisible={this.state.isVisible}
+          isVisible={this.state.isSettingVisible}
           nightModelStyle={nightModelStyleProp}
+          onClose={this.closeModal}
         />
         <NightModel
           nightModelStyle={nightModelStyleProp}
