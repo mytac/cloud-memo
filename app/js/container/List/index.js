@@ -9,6 +9,8 @@ import { getArticles, setArticles } from '../../utils/localStorage';
 import { nightModelStyle } from '../../constants/style';
 import Setting from '../Setting';
 import NightModel from '../NightModel';
+import { menuSet } from '../../constants/menu';
+
 
 /* 不同类型对应不同背景 */
 const colorSet = ['#def2ff', '#bfeabe', '#f2d8c6', '#f0efb0'];
@@ -22,11 +24,16 @@ export default class List extends Component {
       isShowNightModal: false,
       isSettingVisible: false,
     };
+
+    this.handleModal = {
+    };
+
     this.goto = this.goto.bind(this);
     this.getNewData = this.getNewData.bind(this);
     this.updateArticle = this.updateArticle.bind(this);
     this.openModal = this.openModal.bind(this);
     this.closeModal = this.closeModal.bind(this);
+    this.selectModal = this.selectModal.bind(this);
   }
 
   componentDidMount() {
@@ -68,6 +75,13 @@ export default class List extends Component {
     this.setState(obj);
   }
 
+  openModal(modalValue) {
+    const state = menuSet[modalValue].stateName || undefined;
+    if (state) {
+      this.selectModal(state, true);
+    }
+  }
+
   closeModal() {
     this.setState({
       isShowNightModal: false,
@@ -75,15 +89,6 @@ export default class List extends Component {
     });
   }
 
-  openModal(modalValue) {
-    switch (modalValue) {
-      case 'setting':
-        this.selectModal('isSettingVisible', true);
-        break;
-      default:
-        this.selectModal('isShowNightModal', true);
-    }
-  }
 
   render() {
     const { articles, isNightModel } = this.state;

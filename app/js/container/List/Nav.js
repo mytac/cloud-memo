@@ -5,12 +5,7 @@ import { Text, View, StyleSheet, TouchableOpacity } from 'react-native';
 import Menu, { MenuOptions, MenuOption, MenuTrigger } from 'react-native-menu';
 import { px2dp } from '../../utils/px2dp';
 import { nightModelStyle } from '../../constants/style';
-
-const menuSet = [
-  { title: '设置', value: 'setting' },
-  { title: '夜间模式切换', value: 'night-model' },
-];
-
+import { menuSet } from '../../constants/menu';
 
 export default function Nav({
   isNightModel, openModal,
@@ -41,8 +36,8 @@ export default function Nav({
             <MyIcon name="bars" />
           </MenuTrigger>
           <MenuOptions>
-            {menuSet.map(data => (
-              <MenuOption value={data.value} key={data.value}>
+            {menuSet.map((data, index) => (
+              <MenuOption value={index} key={data.value}>
                 <Text style={{ fontSize: px2dp(25) }}>{data.title}</Text>
               </MenuOption>
               ))}
