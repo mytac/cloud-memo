@@ -1,12 +1,16 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { View, FlatList, Text, TouchableOpacity } from 'react-native';
+import { View, FlatList, Text } from 'react-native';
 import { MenuContext } from 'react-native-menu';
 import Listitem from '../../component/Listitem';
 import AddBtn from '../../component/AddBtn';
 import Nav from './Nav';
 import { getArticles, setArticles } from '../../utils/localStorage';
+import { nightModelStyle } from '../../constants/style';
 import Setting from '../Setting';
+import NightModel from '../NightModel';
+import { menuSet } from '../../constants/menu';
+
 
 /* 不同类型对应不同背景 */
 const colorSet = ['#def2ff', '#bfeabe', '#f2d8c6', '#f0efb0'];
@@ -16,12 +20,20 @@ export default class List extends Component {
     super(props);
     this.state = {
       articles: [],
-      isVisible: false,
+      isNightModel: false,
+      isShowNightModal: false,
+      isSettingVisible: false,
     };
+
+    this.handleModal = {
+    };
+
     this.goto = this.goto.bind(this);
     this.getNewData = this.getNewData.bind(this);
     this.updateArticle = this.updateArticle.bind(this);
-    this.toggleModal = this.toggleModal.bind(this);
+    this.openModal = this.openModal.bind(this);
+    this.closeModal = this.closeModal.bind(this);
+    this.selectModal = this.selectModal.bind(this);
   }
 
   componentDidMount() {
@@ -57,21 +69,44 @@ export default class List extends Component {
     );
   }
 
-  toggleModal() {
-    const { isVisible } = this.state;
+  selectModal(modalName, isOpen) {
+    const obj = {};
+    obj[modalName] = isOpen;
+    this.setState(obj);
+  }
+
+  openModal(modalValue) {
+    const state = menuSet[modalValue].stateName || undefined;
+    if (state) {
+      this.selectModal(state, true);
+    }
+  }
+
+  closeModal() {
     this.setState({
-      isVisible: !isVisible,
+      isShowNightModal: false,
+      isSettingVisible: false,
     });
   }
 
 
   render() {
-    const { articles } = this.state;
+    const { articles, isNightModel } = this.state;
+    const { text, wrapper } = nightModelStyle;
+
+    const nightTextColor = isNightModel && text;
+    const nightWrapper = isNightModel && wrapper;
+
+    const nightModelStyleProp = { nightTextColor, nightWrapper };
+
     return (
       <MenuContext style={{ flex: 1 }}>
-        <Nav selectSetting={this.toggleModal} />
+        <Nav
+          isNightModel={isNightModel}
+          openModal={this.openModal}
+        />
         <AddBtn onPress={() => this.goto('Detail')} />
-        <View style={{ flex: 1 }}>
+        <View style={[{ flex: 1 }, nightWrapper]}>
           {articles && articles.length > 0 ?
             <FlatList
               data={articles}
@@ -90,12 +125,21 @@ export default class List extends Component {
               style={{ flex: 1 }}
             />
             :
-            <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-              <Text>没有记录</Text>
+            <View style={[{ flex: 1, alignItems: 'center', justifyContent: 'center' }, nightWrapper]}>
+              <Text style={nightTextColor}>没有记录</Text>
             </View>
           }
         </View>
-        <Setting isVisible={this.state.isVisible} onClose={this.toggleModal} />
+        <Setting
+          isVisible={this.state.isSettingVisible}
+          nightModelStyle={nightModelStyleProp}
+          onClose={this.closeModal}
+        />
+        <NightModel
+          nightModelStyle={nightModelStyleProp}
+          isVisible={this.state.isShowNightModal}
+          onClose={this.closeModal}
+        />
       </MenuContext>
     );
   }

@@ -4,34 +4,40 @@ import PropTypes from 'prop-types';
 import { Text, View, StyleSheet, TouchableOpacity } from 'react-native';
 import Menu, { MenuOptions, MenuOption, MenuTrigger } from 'react-native-menu';
 import { px2dp } from '../../utils/px2dp';
+import { nightModelStyle } from '../../constants/style';
+import { menuSet } from '../../constants/menu';
 
-const menuSet = [
-  { title: '设置', value: 'setting' },
-  { title: '夜间模式切换', value: 'night-model' },
-];
+export default function Nav({
+  isNightModel, openModal,
+}) {
+  const { wrapper, text } = nightModelStyle;
+  const nightTextColor = isNightModel && text;
+  const nightWrapper = isNightModel && wrapper;
 
-export default function Nav({ selectSetting }) {
+  /* eslint-disable react/prop-types */
+  const MyIcon = ({ name }) => <Icon name={name} size={px2dp(40)} style={nightTextColor} />;
+
   return (
-    <View style={styles.wrapper}>
-      <View style={[styles.grid, styles.leftGrid]}>
+    <View style={[styles.wrapper, nightWrapper]}>
+      <View style={[styles.grid]}>
         <TouchableOpacity style={{ width: px2dp(60) }}>
-          <Icon name="folder" size={px2dp(40)} />
+          <MyIcon name="folder" />
         </TouchableOpacity>
-        <Text style={styles.header}>All</Text>
+        <Text style={[styles.header, nightTextColor]}>All</Text>
       </View>
       <View style={[styles.grid, styles.rightGrid]}>
         <TouchableOpacity style={{ width: px2dp(100) }} >
-          <Icon name="refresh" size={px2dp(40)} />
+          <MyIcon name="refresh" />
         </TouchableOpacity>
         <Menu
-          onSelect={value => (value === 'setting' ? selectSetting() : () => {})}
+          onSelect={value => openModal(value)}
         >
           <MenuTrigger>
-            <Icon name="bars" size={px2dp(40)} />
+            <MyIcon name="bars" />
           </MenuTrigger>
           <MenuOptions>
-            {menuSet.map(data => (
-              <MenuOption value={data.value} key={data.value}>
+            {menuSet.map((data, index) => (
+              <MenuOption value={index} key={data.value}>
                 <Text style={{ fontSize: px2dp(25) }}>{data.title}</Text>
               </MenuOption>
               ))}
@@ -43,7 +49,8 @@ export default function Nav({ selectSetting }) {
 }
 
 Nav.propTypes = {
-  selectSetting: PropTypes.func.isRequired,
+  openModal: PropTypes.func.isRequired,
+  isNightModel: PropTypes.bool.isRequired,
 };
 
 
