@@ -12,7 +12,7 @@ An RNapp can upload your memo to ur cloud.
 2. 私密日志手势录入
 3. ~~自己配置服务器地址~~ 3.26✔
 4. ~~拉取列表的分页~~ 3.21✔ 
-5. 夜间模式
+5. ~~夜间模式~~ 4.19
 6. node模块路径解析器
 7. 封装操作asyncStorage的函数
 8. 引入redux
