@@ -5,7 +5,7 @@ import { MenuContext } from 'react-native-menu';
 import Listitem from '../../component/Listitem';
 import AddBtn from '../../component/AddBtn';
 import Nav from './Nav';
-import { getArticles, setArticles } from '../../utils/localStorage';
+import { getArticles, getItem, setArticles, setItem } from '../../utils/localStorage';
 import { nightModelStyle } from '../../constants/style';
 import Setting from '../Setting';
 import NightModel from '../NightModel';
@@ -20,7 +20,7 @@ export default class List extends Component {
     super(props);
     this.state = {
       articles: [],
-      isNightModel: false,
+      isNightModel: false, // 当前是否为夜间模式
       isShowNightModal: false,
       isSettingVisible: false,
     };
@@ -34,10 +34,16 @@ export default class List extends Component {
     this.openModal = this.openModal.bind(this);
     this.closeModal = this.closeModal.bind(this);
     this.selectModal = this.selectModal.bind(this);
+    this.changeNightModel = this.changeNightModel.bind(this);
   }
 
   componentDidMount() {
     this.getNewData();
+    getItem('isNightModel').then((v) => {
+      this.setState({
+        isNightModel: v === '1',
+      });
+    });
   }
 
   componentDidUpdate() {
@@ -65,7 +71,12 @@ export default class List extends Component {
   goto(tar, index) {
     this.props.navigation.navigate(
       tar,
-      { articles: this.state.articles, index, updateArticle: this.updateArticle },
+      {
+        articles: this.state.articles,
+        index,
+        updateArticle: this.updateArticle,
+        isNightModel: this.state.isNightModel,
+      },
     );
   }
 
@@ -89,6 +100,16 @@ export default class List extends Component {
     });
   }
 
+  changeNightModel(val) {
+    setItem('isNightModel', val ? '1' : '0').then((status) => {
+      if (status) {
+        this.setState({
+          isNightModel: val,
+        });
+      }
+    });
+  }
+
 
   render() {
     const { articles, isNightModel } = this.state;
@@ -105,6 +126,7 @@ export default class List extends Component {
           isNightModel={isNightModel}
           openModal={this.openModal}
         />
+
         <AddBtn onPress={() => this.goto('Detail')} />
         <View style={[{ flex: 1 }, nightWrapper]}>
           {articles && articles.length > 0 ?
@@ -132,13 +154,15 @@ export default class List extends Component {
         </View>
         <Setting
           isVisible={this.state.isSettingVisible}
-          nightModelStyle={nightModelStyleProp}
+          isNightModel={isNightModel}
           onClose={this.closeModal}
         />
         <NightModel
           nightModelStyle={nightModelStyleProp}
           isVisible={this.state.isShowNightModal}
           onClose={this.closeModal}
+          toggleSwitch={this.changeNightModel}
+          isNightModel={isNightModel}
         />
       </MenuContext>
     );

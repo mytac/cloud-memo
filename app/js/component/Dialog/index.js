@@ -1,11 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Modal, Text, TouchableOpacity, View, StyleSheet } from 'react-native';
+import { nightModelStyle } from '../../constants/style';
 import { px2dp } from '../../utils/px2dp';
 
+const { wrapper, text } = nightModelStyle;
+
 export default function Dialog({
-  btnSetting, isShowDefaultBtn, title, isVisible, children, onClose,
+  btnSetting, isShowDefaultBtn, title, isVisible, children, onClose, isNightModel,
 }) {
+  const nText = isNightModel && text;
+  const nWrapper = isNightModel && wrapper;
   return (
     <View>
       <Modal
@@ -15,9 +20,9 @@ export default function Dialog({
         onRequestClose={() => {}}
       >
         <View style={[styles.mask]}>
-          <View style={[styles.innerContainer]}>
+          <View style={[styles.innerContainer, nWrapper]}>
             <View style={styles.titleWrapper}>
-              <Text style={[styles.titleText]}>{title}</Text>
+              <Text style={[styles.titleText, nText]}>{title}</Text>
             </View>
             <View style={styles.contentWrapper}>
               {React.Children.map(children, child => child)}
@@ -30,11 +35,11 @@ export default function Dialog({
                   onPress={btn.onPress}
                   style={[styles.buttonWrapper, btn.btnStyle]}
                 >
-                  <Text style={[{ fontSize: px2dp(26) }, btn.textStyle]}>{btn.name}</Text>
+                  <Text style={[{ fontSize: px2dp(26) }, btn.textStyle, nText]}>{btn.name}</Text>
                 </TouchableOpacity>))}
               {isShowDefaultBtn &&
                 <TouchableOpacity onPress={onClose} style={styles.buttonWrapper}>
-                  <Text style={{ fontSize: px2dp(26) }}>关闭</Text>
+                  <Text style={[{ fontSize: px2dp(26) }, nText]}>关闭</Text>
                 </TouchableOpacity>}
 
             </View>
@@ -48,6 +53,7 @@ export default function Dialog({
 
 Dialog.propTypes = {
   isVisible: PropTypes.bool.isRequired,
+  isNightModel: PropTypes.bool.isRequired,
   isShowDefaultBtn: PropTypes.bool,
   onClose: PropTypes.func.isRequired,
   title: PropTypes.string, // modal name
