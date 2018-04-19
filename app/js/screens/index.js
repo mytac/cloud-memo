@@ -30,6 +30,7 @@ export default {
     <UploadBtn />
   </View>,
       },
+      navigation.state.params.isNightModel,
     ),
   },
 };
