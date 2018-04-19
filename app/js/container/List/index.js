@@ -5,7 +5,7 @@ import { MenuContext } from 'react-native-menu';
 import Listitem from '../../component/Listitem';
 import AddBtn from '../../component/AddBtn';
 import Nav from './Nav';
-import { getArticles, setArticles } from '../../utils/localStorage';
+import { getArticles, getItem, setArticles, setItem } from '../../utils/localStorage';
 import { nightModelStyle } from '../../constants/style';
 import Setting from '../Setting';
 import NightModel from '../NightModel';
@@ -39,6 +39,11 @@ export default class List extends Component {
 
   componentDidMount() {
     this.getNewData();
+    getItem('isNightModel').then((v) => {
+      this.setState({
+        isNightModel: v === '1',
+      });
+    });
   }
 
   componentDidUpdate() {
@@ -96,8 +101,12 @@ export default class List extends Component {
   }
 
   changeNightModel(val) {
-    this.setState({
-      isNightModel: val,
+    setItem('isNightModel', val ? '1' : '0').then((status) => {
+      if (status) {
+        this.setState({
+          isNightModel: val,
+        });
+      }
     });
   }
 
