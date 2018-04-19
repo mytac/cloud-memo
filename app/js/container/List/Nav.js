@@ -37,8 +37,10 @@ export default function Nav({
           </MenuTrigger>
           <MenuOptions>
             {menuSet.map((data, index) => (
-              <MenuOption value={index} key={data.value}>
-                <Text style={{ fontSize: px2dp(25) }}>{data.title}</Text>
+              <MenuOption value={index} key={data.value} style={nightWrapper}>
+                <View>
+                  <Text style={[{ fontSize: px2dp(25) }, nightTextColor]}>{data.title}</Text>
+                </View>
               </MenuOption>
               ))}
           </MenuOptions>

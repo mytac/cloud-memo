@@ -133,6 +133,7 @@ export default class Detail extends Component {
             underlineColorAndroid="transparent"
             style={[{ flex: 1 }, style.inputBox, nightTextColor]}
             value={title}
+            selectionColor={isNightModel ? text.color : ''}
             onChangeText={(txt) => { this.setState({ title: txt }); }}
           />
           <TextInput
@@ -144,6 +145,8 @@ export default class Detail extends Component {
             underlineColorAndroid="transparent"
             value={content}
             onChangeText={(txt) => { this.setState({ content: txt }); }}
+            selectionColor={isNightModel ? text.color : ''}
+            autoFocus
           />
         </Animated.View>
       </ScrollView>

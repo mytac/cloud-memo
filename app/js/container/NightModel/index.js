@@ -4,14 +4,12 @@ import PropTypes from 'prop-types';
 import Dialog from '../../component/Dialog';
 import { px2dp } from '../../utils/px2dp';
 
-export default function NightModel({
-  isVisible, onClose, isNightModel, toggleSwitch,
-}) {
+export default function NightModel(props) {
+  const { isNightModel, toggleSwitch } = props;
   return (
     <Dialog
       title="夜间模式"
-      isVisible={isVisible}
-      onClose={onClose}
+      {...props}
     >
       <View style={{ width: px2dp(100) }}>
         <Switch

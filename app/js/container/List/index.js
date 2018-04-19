@@ -154,7 +154,7 @@ export default class List extends Component {
         </View>
         <Setting
           isVisible={this.state.isSettingVisible}
-          nightModelStyle={nightModelStyleProp}
+          isNightModel={isNightModel}
           onClose={this.closeModal}
         />
         <NightModel
